@@ -1,0 +1,50 @@
+:root {
+  font-size: 10px;
+}
+
+:root {
+  
+
+  --white: #fff;
+  --red: #A60000;
+  --yellow: #FFBE41;
+
+  --black: #000;
+  --black-60op: rgba(0, 0, 0, 60%);
+
+  --vanilla500: #FDE7BC;
+  --vanilla800: #E9D4AB;
+
+  --gray100: #EFEFEF;
+  --gray100-10op: rgba(239, 239, 239, 65%);
+  --gray300: #D9D9D9;
+  --gray400: #DFDFDF;
+  --gray800: #333333;
+  --gray800-10op: rgba(51, 51, 51, 10%);
+
+  --font-title: 700 4.8rem/5.6rem 'Merriweather Sans', sans-serif;
+  --font-title-secondary: 700 3.2rem/2.6rem 'Merriweather Sans', sans-serif;
+  --font-subtitle: 700 2.0rem/2.6rem 'Merriweather Sans', sans-serif;
+  --font-subtitle-secondary: 600 2.0rem/2.6rem 'Inter', sans-serif;
+  --font-text: 500 1.6rem/2.6 'Inter', sans-serif;
+  --font-text-secondary: 500 1.6rem/2.6 'Merriweather Sans', sans-serif;
+  --font-text-tertiary: 500 1.4rem/2.2 'Merriweather Sans', sans-serif;
+}
+
+
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+    Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
