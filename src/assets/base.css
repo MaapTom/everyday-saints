@@ -3,8 +3,6 @@
 }
 
 :root {
-  
-
   --white: #fff;
   --red: #A60000;
   --yellow: #FFBE41;
@@ -26,9 +24,20 @@
   --font-title-secondary: 700 3.2rem/2.6rem 'Merriweather Sans', sans-serif;
   --font-subtitle: 700 2.0rem/2.6rem 'Merriweather Sans', sans-serif;
   --font-subtitle-secondary: 600 2.0rem/2.6rem 'Inter', sans-serif;
-  --font-text: 500 1.6rem/2.6 'Inter', sans-serif;
-  --font-text-secondary: 500 1.6rem/2.6 'Merriweather Sans', sans-serif;
-  --font-text-tertiary: 500 1.4rem/2.2 'Merriweather Sans', sans-serif;
+  --font-text: 400 1.6rem/2.6rem 'Inter', sans-serif;
+  --font-text-secondary: 400 1.6rem/2.6rem 'Merriweather Sans', sans-serif;
+  --font-text-tertiary: 400 1.4rem/2.2rem 'Merriweather Sans', sans-serif;
+
+  --extra-large: 60px;
+  --large: 48px;
+  --medium: 36px;
+  --medium-x: 24px;
+  --medium-xs: 20px;
+  --small: 16px;
+  --small-x: 14px;
+  --small-xs: 12px;
+  --small-xl: 10px;
+  --small-s: 6px;
 }
 
 

@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host --port 8888",
     "build": "vite build",
     "preview": "vite preview",
     "test:unit": "vitest",
@@ -11,6 +11,8 @@
     "test:e2e:dev": "start-server-and-test 'vite dev --port 4173' http://localhost:4173 'cypress open --e2e'"
   },
   "dependencies": {
+    "@phosphor-icons/vue": "^2.1.6",
+    "@vueuse/core": "^10.4.1",
     "pinia": "^2.1.6",
     "vue": "^3.3.4",
     "vue-router": "^4.2.4"
