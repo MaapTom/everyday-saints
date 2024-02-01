@@ -1,22 +1,42 @@
 <script setup>
 const props = defineProps({
-  textValue: [String, Number],
-  iconName: String,
-  backgroundColor: String,
-  backgroundHover: String,
-  largeButton: Boolean,
+  textValue: {
+    type: [String, Number],
+    required: true,
+  },
+  
+  iconName: {
+    type: String,
+    required: true,
+  },
+
+  backgroundColor: {
+    type: String,
+    required: true,
+  },
+
+  backgroundHover: {
+    type: String,
+    required: true,
+  },
+
+  largeButton: {
+    type: Boolean,
+    required: false,
+  }
 })
 </script>
 
 <template>
   <button 
     :title="textValue"
-    :class="[ largeButton ? 'large-wrapper' : 'small-wrapper', 'button-wrapper' ]"
+    :class="[ largeButton ? 'button--large' : 'button--small', 'button button--hover']"
+    data-test="button"
   >
-    <span class="icon-frame">
-      <slot>
-      </slot>
+    <span class="button__icon-frame">
+      <slot></slot>
     </span>
+
     {{ textValue }}
   </button>
 </template>
@@ -25,7 +45,7 @@ const props = defineProps({
 @import '../assets/main.css';
 @import '../assets/base.css';
 
-.button-wrapper {
+.button {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -42,26 +62,27 @@ const props = defineProps({
   cursor: pointer;
 }
 
-.large-wrapper {
-  padding: var(--small-xl);
-}
-
-.small-wrapper {
-  padding: var(--small-s);
-}
-
-.button-wrapper:hover {
-  background-color: v-bind(backgroundHover);
-}
-
-.icon-frame {
+.button__icon-frame {
   display: flex;
   margin: 0 var(--small-s);
 }
 
+.button--large {
+  padding: var(--small-xl);
+}
+
+.button--small {
+  padding: var(--small-s);
+}
+
+.button--hover:hover {
+  background-color: v-bind(backgroundHover);
+}
+
 @media(min-width: 1200px) {
-  .button-wrapper {
+  .button {
     font: var(--font-text-secondary);
+    font-weight: normal;
   }
 }
 </style>

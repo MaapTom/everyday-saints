@@ -1,35 +1,39 @@
 <script setup>
-import Logo from './icons/Logo.vue'
-import { reactive, computed } from 'vue'
-import { useWindowSize } from '@vueuse/core'
-import { PhCalendarPlus } from '@phosphor-icons/vue'
-import ButtonIcon from '../components/ButtonIcon.vue'
+import Logo from './icons/Logo.vue';
+import { computed } from 'vue';
+import { useWindowSize } from '@vueuse/core';
+import { PhCalendarPlus } from '@phosphor-icons/vue';
+import ButtonIcon from '../components/ButtonIcon.vue';
 
 const { width } = useWindowSize();
 
-const currentMenuText = computed(() => {
-  return width.value < 480 ? 'Calendário' : 'Calendário dos Santos';
+const largeTextButtonIcon = computed(() => {
+  return width.value < 480 ? 'Calendário' : "Calendário dos Santos";
+});
+
+const adjustTextButtonIcon = computed(() => {
+  return width.value < 375 ? '' : largeTextButtonIcon.value;
 });
 
 </script>
 
 <template>
-  <header class="header-wrapper">
-    <nav id="home-nav-bar">
-      <a
-        href="#"
+  <header class="header">
+    <nav id="header__nav-bar">
+      <RouterLink
+        to="/"
         aria-label="Link para homepage"
         role="navigation"
-        class="logo"
+        data-test="link-logo"
       >
         <Logo />
-      </a>
+      </RouterLink>
       <ButtonIcon
-        :text-value="(width < 375) ? '' : currentMenuText"
+        :textValue="adjustTextButtonIcon"
         :largeButton="true"
-        icon-name="Calendário"
-        background-color="#FDE7BC"
-        background-hover="#E9D4AB"
+        iconName="Calendário"
+        backgroundColor="#FDE7BC"
+        backgroundHover="#E9D4AB"
       >
         <PhCalendarPlus
           color="#000"
@@ -48,12 +52,12 @@ const currentMenuText = computed(() => {
 @import '../assets/main.css';
 @import '../assets/base.css';
 
-.header-wrapper {
+.header {
   max-width: 100%;
   margin: var(--medium-x) var(--small);
 }
 
-#home-nav-bar {
+#header__nav-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -62,19 +66,19 @@ const currentMenuText = computed(() => {
 
 
 @media(min-width: 800px) {
-  .header-wrapper {
+  .header {
     margin: var(--medium) var(--large);
   }
 }
 
 @media(min-width: 1200px) {
-  .header-wrapper {
+  .header {
     margin: var(--large) var(--extra-large);
   }
 }
 
 @media(min-width: 1600px) {
-  .header-wrapper {
+  .header {
     max-width: 1600px;
     margin: var(--large) auto;
   }

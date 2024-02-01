@@ -2,11 +2,30 @@
 import { reactive } from 'vue'
 
 const props = defineProps({
-  height: Number,
-  width: Number,
-  backgroundColor: String,
-  fullHeight: Boolean,
-  fullWidth: Boolean,
+  height: {
+    type: Number,
+    required: true
+  },
+
+  width: {
+    type: Number,
+    required: true
+  },
+
+  backgroundColor: {
+    type: String,
+    required: true
+  },
+
+  fullHeight: {
+    type: Boolean,
+    required: false
+  },
+
+  fullWidth: {
+    type: Boolean,
+    required: false
+  }
 });
 
 const styleProps = reactive({
@@ -17,7 +36,10 @@ const styleProps = reactive({
 </script>
 
 <template>
-  <span :style="styleProps" class="span-separator"></span>
+  <span
+    :style="styleProps"
+    class="span-separator"
+  ></span>
 </template>
 
 <style scoped>
