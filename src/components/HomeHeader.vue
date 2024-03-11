@@ -1,18 +1,20 @@
 <script setup>
 import Logo from './icons/Logo.vue';
 import { computed } from 'vue';
+import { RouterLink } from 'vue-router';
 import { useWindowSize } from '@vueuse/core';
 import { PhCalendarPlus } from '@phosphor-icons/vue';
 import ButtonIcon from '../components/ButtonIcon.vue';
+import { breakpoints } from '../utils/breakpoints.js';
 
 const { width } = useWindowSize();
 
 const largeTextButtonIcon = computed(() => {
-  return width.value < 480 ? 'Calendário' : "Calendário dos Santos";
+  return width.value < breakpoints.largePhoneDevice ? 'Calendário' : "Calendário dos Santos";
 });
 
 const adjustTextButtonIcon = computed(() => {
-  return width.value < 375 ? '' : largeTextButtonIcon.value;
+  return width.value < breakpoints.smallPhoneDevice ? '' : largeTextButtonIcon.value;
 });
 
 </script>
@@ -23,7 +25,6 @@ const adjustTextButtonIcon = computed(() => {
       <RouterLink
         to="/"
         aria-label="Link para homepage"
-        role="navigation"
         data-test="link-logo"
       >
         <Logo />
@@ -37,7 +38,7 @@ const adjustTextButtonIcon = computed(() => {
       >
         <PhCalendarPlus
           color="#000"
-          :size="(width < 480) ? 22 : 26"
+          :size="(width < breakpoints.largePhoneDevice) ? 22 : 26"
           aria-describedby="describedby-icon"
           role="img"
         >

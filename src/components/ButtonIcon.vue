@@ -32,6 +32,7 @@ const props = defineProps({
     :title="textValue"
     :class="[ largeButton ? 'button--large' : 'button--small', 'button button--hover']"
     data-test="button"
+    type="button"
   >
     <span class="button__icon-frame">
       <slot></slot>
@@ -57,9 +58,9 @@ const props = defineProps({
   line-height: normal !important;
   color: var(--black);
   transition: background-color 0.2s ease;
-  outline: transparent;
+  /* outline: transparent;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  cursor: pointer;
+  cursor: pointer; */
 }
 
 .button__icon-frame {

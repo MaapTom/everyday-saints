@@ -1,5 +1,6 @@
 <script setup>
 import { useWindowSize } from '@vueuse/core';
+import { breakpoints } from '../utils/breakpoints.js';
 import { PhHandsPraying, PhLink } from '@phosphor-icons/vue';
 
 const { width } = useWindowSize();
@@ -52,7 +53,7 @@ const { width } = useWindowSize();
       <span class="wrapper-paragraph__title-icon">
         <PhHandsPraying
           color="#000"
-          :size="width < 480 ? 24 : 26"
+          :size="width < breakpoints.largePhoneDevice ? 24 : 26"
           aria-describedby="describedby-icon"
           role="img"
         >
@@ -71,7 +72,7 @@ const { width } = useWindowSize();
       <a href="#top" class="wrapper-paragraph__link">
         <PhLink
           color="#000"
-          :size="width < 480 ? 24 : 26"
+          :size="width < breakpoints.largePhoneDevice ? 24 : 26"
           aria-describedby="describedby-icon"
           role="img"
         >

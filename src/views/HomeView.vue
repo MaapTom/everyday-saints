@@ -2,11 +2,13 @@
 import { useWindowSize } from "@vueuse/core";
 import { PhShareFat } from "@phosphor-icons/vue";
 import Separator from "../components/Separator.vue";
+import { breakpoints } from "../utils/breakpoints.js";
 import HomeHeader from "../components/HomeHeader.vue";
 import ButtonIcon from "../components/ButtonIcon.vue";
 import HomeFooter from "../components/HomeFooter.vue";
 import HomeSaintImage from "../components/HomeSaintImage.vue";
 import HomeSaintHistory from "../components/HomeSaintHistory.vue";
+import HomeModalHistory from "../components/HomeModalHistory.vue";
 import HomeSaintApresentation from "../components/HomeSaintApresentation.vue";
 
 const { width } = useWindowSize();
@@ -18,7 +20,7 @@ const { width } = useWindowSize();
   <main id="home-container">
     <section class="home-container__introduction">
       <HomeSaintImage
-        :largeScreen="width >= 1200 ? true : false"
+        :largeScreen="width >= breakpoints.middleDevice ? true : false"
         largeDisplayImage="/santa_maria_goretti_expand.jpg"
         smallDisplayImage="/santa_maria_goretti.jpg"
         acessibleDescription="Imagem de Santa Maria Goretti, por..."
@@ -27,14 +29,14 @@ const { width } = useWindowSize();
         :width="2"
         :height="93" 
         backgroundColor="#EFEFEF"
-        v-show="width < 800"
+        v-show="width < breakpoints.tabletDevice"
       />
       <HomeSaintApresentation/>
     </section>
 
     <div
       class="home-container__wrapper-mobile-title"
-      v-show="width < 800"
+      v-show="width < breakpoints.tabletDevice"
     >
       <h1 class="home-container__wrapper-mobile-title__title">Santa Maria Goretti</h1>
       <Separator
@@ -45,7 +47,7 @@ const { width } = useWindowSize();
       />
     </div>
 
-    <HomeSaintHistory v-show="width < 1200"/>
+    <HomeSaintHistory v-show="width < breakpoints.middleDevice"/>
 
     <div class="home-container__wrapper-mobile-buttons">
       <ButtonIcon
@@ -54,11 +56,11 @@ const { width } = useWindowSize();
         iconName="Compartilhar"
         backgroundColor="#EFEFEF"
         backgroundHover="#DFDFDF"
-        v-show="width < 800"
+        v-show="width < breakpoints.tabletDevice"
       >
         <PhShareFat
           color="#000"
-          :size="width < 480 ? 22 : 26"
+          :size="width < breakpoints.largePhoneDevice ? 22 : 26"
           aria-describedby="describedby-icon"
           role="img"
         >
@@ -67,6 +69,8 @@ const { width } = useWindowSize();
       </ButtonIcon>
     </div>
   </main>
+
+  <HomeModalHistory />
 
   <HomeFooter/>
 </template>
@@ -100,14 +104,6 @@ const { width } = useWindowSize();
   flex-wrap: wrap;
   margin: var(--medium) 0 0 0;
   gap: var(--small);
-}
-
-@media(min-width: 485px) {
-  .home-container__wrapper-mobile-title__title {
-    margin: 0px;
-    font: var(--font-title-secondary);
-    padding: var(--small-xl);
-  }
 }
 
 @media(min-width: 800px) {

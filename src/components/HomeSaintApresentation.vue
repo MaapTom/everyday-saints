@@ -1,9 +1,12 @@
 <script setup>
 import { useWindowSize } from "@vueuse/core";
+import { useModalStore } from "../stores/modal";
+import { breakpoints } from "../utils/breakpoints.js";
 import ButtonIcon from "../components/ButtonIcon.vue";
 import { PhPlusCircle, PhShareFat} from "@phosphor-icons/vue";
 
 const { width } = useWindowSize();
+const modalStore = useModalStore();
 
 </script>
 
@@ -17,7 +20,7 @@ const { width } = useWindowSize();
 
     <h1
       class="saint-apresentation__title saint-apresentation__title--filled-red"
-      v-show="width >= 800"
+      v-show="width >= breakpoints.tabletDevice"
     >
       Santa Maria Goretti
     </h1>
@@ -29,7 +32,7 @@ const { width } = useWindowSize();
 
     <p
       class="saint-apresentation__description"
-      v-show="width >= 1200"
+      v-show="width >= breakpoints.middleDevice"
     >
       Nasceu em Corinaldo, centro da Itália, no ano de 1890. Era de família pobre, numerosa e camponesa,
       mas muito temente a Deus. Com a morte do pai, Maria Goretti, com os seus, foram morar num local perto de Roma,
@@ -43,11 +46,12 @@ const { width } = useWindowSize();
         iconName="Mais"
         backgroundColor="#EFEFEF"
         backgroundHover="#DFDFDF"
-        v-show="width >= 1200"
+        v-show="width >= breakpoints.middleDevice"
+        @click="modalStore.setOpenModal()"
       >
         <PhPlusCircle
           color="#000"
-          :size="width < 480 ? 22 : 26"
+          :size="width < breakpoints.largePhoneDevice ? 22 : 26"
           aria-describedby="describedby-icon"
           role="img"
         >
@@ -60,11 +64,11 @@ const { width } = useWindowSize();
         iconName="Compartilhar"
         backgroundColor="#EFEFEF"
         backgroundHover="#DFDFDF"
-        v-show="width >= 800"
+        v-show="width >= breakpoints.tabletDevice"
       >
         <PhShareFat
           color="#000"
-          :size="width < 480 ? 22 : 26"
+          :size="width < breakpoints.largePhoneDevice ? 22 : 26"
           aria-describedby="describedby-icon"
           role="img"
         >
