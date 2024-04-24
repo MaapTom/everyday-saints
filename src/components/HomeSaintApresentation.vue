@@ -3,7 +3,7 @@ import { useWindowSize } from "@vueuse/core";
 import { useModalStore } from "../stores/modal";
 import { breakpoints } from "../utils/breakpoints.js";
 import ButtonIcon from "../components/ButtonIcon.vue";
-import { PhPlusCircle, PhShareFat} from "@phosphor-icons/vue";
+import { PhPlusCircle, PhShareFat } from "@phosphor-icons/vue";
 
 const { width } = useWindowSize();
 const modalStore = useModalStore();
@@ -11,17 +11,14 @@ const modalStore = useModalStore();
 </script>
 
 <template>
-
   <div class="saint-apresentation">
 
     <h2 class="saint-apresentation__subtitle">
       <span class="saint_apresentation__subtitle__text-expand">06</span> De Julho
     </h2>
 
-    <h1
-      class="saint-apresentation__title saint-apresentation__title--filled-red"
-      v-show="width >= breakpoints.tabletDevice"
-    >
+    <h1 class="saint-apresentation__title saint-apresentation__title--filled-red"
+      v-show="width >= breakpoints.tabletDevice">
       Santa Maria Goretti
     </h1>
 
@@ -30,17 +27,14 @@ const modalStore = useModalStore();
       <h3>1890 - 1902</h3>
     </div>
 
-    <p
-      class="saint-apresentation__description"
-      v-show="width >= breakpoints.middleDevice"
-    >
+    <p class="saint-apresentation__description" v-show="width >= breakpoints.middleDevice">
       Nasceu em Corinaldo, centro da Itália, no ano de 1890. Era de família pobre, numerosa e camponesa,
       mas muito temente a Deus. Com a morte do pai, Maria Goretti, com os seus, foram morar num local perto de Roma,
       sob o mesmo teto de uma família composta por um pai viúvo e dois filhos, sendo um deles Alessandro.
     </p>
 
-    <div class="saint-apresentation__buttons">          
-      <ButtonIcon
+    <div class="saint-apresentation__buttons">
+      <ButtonIcon 
         textValue="Ler Mais"
         :largeButton="true"
         iconName="Mais"
@@ -52,12 +46,12 @@ const modalStore = useModalStore();
         <PhPlusCircle
           color="#000"
           :size="width < breakpoints.largePhoneDevice ? 22 : 26"
-          aria-describedby="describedby-icon"
-          role="img"
+          aria-describedby="describedby-icon" role="img"
         >
           <title id="describedby-icon" lang="pt">Ícone de mais</title>
         </PhPlusCircle>
       </ButtonIcon>
+
       <ButtonIcon
         textValue="Compartilhar"
         :largeButton="true"
@@ -78,7 +72,6 @@ const modalStore = useModalStore();
     </div>
 
   </div>
-
 </template>
 
 <style scoped>
@@ -121,7 +114,7 @@ const modalStore = useModalStore();
   flex-direction: column;
   gap: var(--small);
   font: var(--font-text-tertiary);
-  font-weight: 400; 
+  font-weight: 400;
 }
 
 .saint-apresentation__description {
@@ -164,7 +157,5 @@ const modalStore = useModalStore();
   .saint-apresentation__details h3 {
     font: var(--font-text-secondary);
   }
-
 }
-
 </style>

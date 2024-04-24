@@ -1,4 +1,5 @@
 <script setup>
+import 'vue3-carousel/dist/carousel.css';
 import { useWindowSize } from "@vueuse/core";
 import { PhShareFat } from "@phosphor-icons/vue";
 import Separator from "../components/Separator.vue";
@@ -7,6 +8,7 @@ import HomeHeader from "../components/HomeHeader.vue";
 import ButtonIcon from "../components/ButtonIcon.vue";
 import HomeFooter from "../components/HomeFooter.vue";
 import HomeSaintImage from "../components/HomeSaintImage.vue";
+import SlideNavigation from '../components/SlideNavigation.vue';
 import HomeSaintHistory from "../components/HomeSaintHistory.vue";
 import HomeModalHistory from "../components/HomeModalHistory.vue";
 import HomeSaintApresentation from "../components/HomeSaintApresentation.vue";
@@ -31,7 +33,10 @@ const { width } = useWindowSize();
         backgroundColor="#EFEFEF"
         v-show="width < breakpoints.tabletDevice"
       />
-      <HomeSaintApresentation/>
+      <div class="home-container__introduction__column-wrapper">
+        <HomeSaintApresentation/>
+        <SlideNavigation />
+      </div>
     </section>
 
     <div
@@ -118,6 +123,15 @@ const { width } = useWindowSize();
 @media(min-width: 1200px) {
   #home-container {
     padding: 0 var(--extra-large);
+  }
+
+  .home-container__introduction {
+    justify-content: space-between;
+  }
+
+  .home-container__introduction__column-wrapper {
+    display: flex;
+    flex-direction: column;
   }
 }
 

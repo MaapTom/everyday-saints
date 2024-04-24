@@ -66,7 +66,7 @@ const responsibleSaintImage = computed(() => {
 
 @media(min-width: 1200px) {
   .wrapper-image {
-    max-width: 477px;
+    min-width: 477px;
     max-height: 656px;
     height: 70vh;
     order: 2;

@@ -51,7 +51,7 @@ function handleScroll(event) {
   <dialog
     ref="modalDialog"
     class="dialog"
-    aria-label="Personal details updated confirmation"
+    aria-label="Leia mais sobre a história de Santa Maria Goretti"
   >
     <div
       class="dialog__modal-container"

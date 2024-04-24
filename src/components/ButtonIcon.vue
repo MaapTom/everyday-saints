@@ -2,22 +2,22 @@
 const props = defineProps({
   textValue: {
     type: [String, Number],
-    required: true,
+    required: false,
   },
-  
-  iconName: {
+
+  buttonTitle: {
     type: String,
-    required: true,
+    required: false,
   },
 
   backgroundColor: {
     type: String,
-    required: true,
+    required: false,
   },
 
   backgroundHover: {
     type: String,
-    required: true,
+    required: false,
   },
 
   largeButton: {
@@ -29,7 +29,7 @@ const props = defineProps({
 
 <template>
   <button 
-    :title="textValue"
+    :title="textValue || buttonTitle"
     :class="[ largeButton ? 'button--large' : 'button--small', 'button button--hover']"
     data-test="button"
     type="button"
