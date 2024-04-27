@@ -1,5 +1,4 @@
 <script setup>
-import 'vue3-carousel/dist/carousel.css';
 import { useWindowSize } from "@vueuse/core";
 import { PhShareFat } from "@phosphor-icons/vue";
 import Separator from "../components/Separator.vue";
@@ -18,11 +17,21 @@ const { width } = useWindowSize();
 
 <template>
   <HomeHeader />
+  <div class="slide-middle-device">
+    <SlideNavigation v-show="width < 1200"/>
+    <Separator
+      :fullWidth="true"
+      :height="2" 
+      backgroundColor="#EFEFEF"
+      v-show="width < breakpoints.largePhoneDevice"
+      class="slide-middle-device__separator--margin"
+    />
+  </div>
 
   <main id="home-container">
     <section class="home-container__introduction">
       <HomeSaintImage
-        :largeScreen="width >= breakpoints.middleDevice ? true : false"
+        :largeScreen="width >= breakpoints.tabletDevice ? true : false"
         largeDisplayImage="/santa_maria_goretti_expand.jpg"
         smallDisplayImage="/santa_maria_goretti.jpg"
         acessibleDescription="Imagem de Santa Maria Goretti, por..."
@@ -35,7 +44,7 @@ const { width } = useWindowSize();
       />
       <div class="home-container__introduction__column-wrapper">
         <HomeSaintApresentation/>
-        <SlideNavigation />
+        <SlideNavigation v-show="width >= 1200"/>
       </div>
     </section>
 
@@ -86,7 +95,7 @@ const { width } = useWindowSize();
 
 #home-container {
   width: 100%;
-  padding: 0 var(--medium-xs);
+  padding: 0 var(--medium);
 }
 
 .home-container__introduction {
@@ -111,12 +120,23 @@ const { width } = useWindowSize();
   gap: var(--small);
 }
 
-@media(min-width: 800px) {
+.slide-middle-device {
+  margin: 0 var(--medium-x) 0 var(--medium-x);
+}
+
+.slide-middle-device__separator--margin {
+  margin-bottom: 24px;
+}
+
+@media(max-width: 480px) {
   #home-container {
-    padding: 0 var(--medium);
+    padding: 0 var(--small);
   }
+}
+
+@media(min-width: 800px) {
   .home-container__introduction {
-    gap: var(--extra-large);
+    gap: var(--large);
   }
 }
 
@@ -127,6 +147,7 @@ const { width } = useWindowSize();
 
   .home-container__introduction {
     justify-content: space-between;
+    gap: var(--medium-xs);
   }
 
   .home-container__introduction__column-wrapper {

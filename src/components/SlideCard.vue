@@ -30,7 +30,7 @@ const { width } = useWindowSize();
       :src="props.cardSaintUrlImage" 
       class="card__saint-image"
       :alt="'Image de ' + cardSaintName"
-      v-show="width > breakpoints.largePhoneDevice"
+      v-show="width >= breakpoints.largePhoneDevice"
     >
     <li class="card__text-card">
       <p class="card__text-card__title">{{ cardSaintName }}</p>
@@ -43,8 +43,7 @@ const { width } = useWindowSize();
 @import '../assets/main.css';
 
 .card {
-  min-width: 252px;
-  max-height: 94px;
+  min-width: 172px;
   display: flex;
   justify-content: center;
   padding: var(--small-s) 0;
@@ -61,14 +60,21 @@ const { width } = useWindowSize();
 .card__text-card {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: center; 
   overflow-wrap: normal;
+  transition: all .2s;
 }
+
 .card--active{
+  max-height: 78px;
   display: flex;
   gap: var(--small-xl);
   box-shadow: 0 13px 10px 4px rgba(0, 0, 0, 0.11);
   border: 1.5px solid var(--gray300) !important;
+}
+
+.card--active.card__text-card {
+  gap: 8px;
 }
 
 .card__text-card__title {
@@ -79,9 +85,10 @@ const { width } = useWindowSize();
   font: var(--font-text);
 }
 
-
-@media(min-width: 480px) {
+@media(min-width: 480px){
   .card {
+    min-width: 252px;
+    max-height: 94px;
     display: flex;
     align-items: center;
     gap: var(--small-xl);
@@ -104,7 +111,6 @@ const { width } = useWindowSize();
   .card__text-card {
     display: flex;
     flex-direction: column;
-    align-items: start;
     gap: var(--small-s);
   }
 

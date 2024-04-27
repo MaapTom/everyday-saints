@@ -80,6 +80,10 @@ const props = defineProps({
   background-color: v-bind(backgroundHover);
 }
 
+.button--no-padding {
+  padding: 0px;
+}
+
 @media(min-width: 1200px) {
   .button {
     font: var(--font-text-secondary);

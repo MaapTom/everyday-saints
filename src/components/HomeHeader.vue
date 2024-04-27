@@ -55,7 +55,7 @@ const adjustTextButtonIcon = computed(() => {
 
 .header {
   max-width: 100%;
-  margin: var(--medium-x) var(--small);
+  margin: var(--medium-x) var(--medium);
 }
 
 #header__nav-bar {
@@ -65,6 +65,11 @@ const adjustTextButtonIcon = computed(() => {
   width: 100%;
 }
 
+@media(max-width: 480px) {
+  .header {
+    margin: var(--medium-x) var(--small);
+  }
+}
 
 @media(min-width: 800px) {
   .header {
