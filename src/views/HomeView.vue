@@ -22,6 +22,7 @@ const { width } = useWindowSize();
     <Separator
       :fullWidth="true"
       :height="2" 
+      :width="1"
       backgroundColor="#EFEFEF"
       v-show="width < breakpoints.largePhoneDevice"
       class="slide-middle-device__separator--margin"

@@ -5,7 +5,10 @@ import ButtonIcon from './ButtonIcon.vue';
 import { useWindowSize } from "@vueuse/core";
 import { PhCaretRight, PhCaretLeft } from '@phosphor-icons/vue';
 
+const CARD_SIZE = 252;
+let currentNavigationPosition = 0;
 const { width } = useWindowSize();
+const navigation = ref(null);
 const stateCardElements = ref(['card--inactive', 'card--active', 'card--inactive']);
 
 function handleClickOnSlideCards(currentId) {
@@ -23,6 +26,16 @@ function removeActiveClasses() {
   }
 }
 
+function handleClickRightControl() {
+  currentNavigationPosition += CARD_SIZE;
+  navigation.value.scrollLeft += CARD_SIZE;
+}
+
+function handleClickLeftControl() {
+  currentNavigationPosition -= CARD_SIZE;
+  navigation.value.scrollLeft -= CARD_SIZE;
+}
+
 </script>
 
 <template>
@@ -31,6 +44,8 @@ function removeActiveClasses() {
       buttonTitle="Rolar para esquerda"
       class="button--no-padding"
       v-show="width > 480"
+      @click="handleClickLeftControl"
+      data-test="leftControl"
     >
       <PhCaretLeft
         :size="32"
@@ -38,7 +53,11 @@ function removeActiveClasses() {
         aria-hidden="true"
       />
     </ButtonIcon>
-    <ul class="navigation__container">
+    <ul
+      class="navigation__container"
+      ref="navigation"
+      data-test="containerNavigation"
+    >
       <SlideCard
         cardSaintUrlImage="/sao_judas_tadeu_caroussel.png"
         cardSaintName="São Judas Tadeu"
@@ -84,6 +103,8 @@ function removeActiveClasses() {
       buttonTitle="Rolar para direita"
       class="button--no-padding"
       v-show="width > 480"
+      @click="handleClickRightControl"
+      data-test="rightControl"
     >
       <PhCaretRight
         :size="32"
@@ -102,6 +123,7 @@ function removeActiveClasses() {
   display: flex;
   align-items: center;
   max-width: 52vw;
+  transition: all .2s;
 }
 
 .navigation__container {
@@ -109,6 +131,8 @@ function removeActiveClasses() {
   gap: 16px;
   overflow: scroll;
   padding: var(--medium) 0px;
+  transition: all .2s;
+  scroll-behavior: smooth;
 }
 
 .navigation__container::-webkit-scrollbar {
