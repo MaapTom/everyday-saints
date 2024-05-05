@@ -20,8 +20,26 @@ describe('Test slide controls', () => {
     expect(containerNavigation.element.scrollLeft).toEqual(252);
   });
 
+  test('Tests double click in the right control', async() => {
+    await rightControl.trigger('click');
+    await rightControl.trigger('click');
+    expect(containerNavigation.element.scrollLeft).toEqual(504);
+  })
+
   test('The slide navigation slides to left on click inside the left control', async () => {
     await rightControl.trigger('click');
+    await leftControl.trigger('click');
+
+    expect(containerNavigation.element.scrollLeft).toEqual(0);
+  });
+
+  test('Tests double click in the left control', async () => {
+    await rightControl.trigger('click');
+    await rightControl.trigger('click');
+    
+    expect(containerNavigation.element.scrollLeft).toEqual(504);
+    
+    await leftControl.trigger('click');
     await leftControl.trigger('click');
 
     expect(containerNavigation.element.scrollLeft).toEqual(0);
