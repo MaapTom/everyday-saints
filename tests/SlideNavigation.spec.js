@@ -46,3 +46,28 @@ describe('Test slide controls', () => {
   });
 })
 
+describe('Test SlideCard', () => {
+  const wrapper = mount(SlideNavigation);
+  
+  test('Activate SlideCard on a click', async () => {
+    const SlideCard = wrapper.getComponent('[data-test="slide-card"]');
+
+    await SlideCard.trigger('click');
+    expect(SlideCard.classes('card--active')).toBe(true);
+  })
+
+  test('Deactivated other ones', async () => {
+    const ListSlideCards = wrapper.findAllComponents('[data-test="slide-card"]');
+    const firstSlideCard = ListSlideCards[0];
+
+    await firstSlideCard.trigger('click');
+    expect(firstSlideCard.classes('card--active')).toBe(true);
+
+    ListSlideCards.forEach((currentCard, index) => {
+      if(index != 0) {
+        console.log(currentCard.classes())
+        expect(currentCard.classes('card--active')).toBe(false);
+      }
+    });
+  })
+})

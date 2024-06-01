@@ -14,10 +14,6 @@ const props = defineProps({
   cardSaintBornDied: {
     type: String,
     required: true,
-  },
-  isActive: {
-    type: Boolean,
-    required: false,
   }
 });
 

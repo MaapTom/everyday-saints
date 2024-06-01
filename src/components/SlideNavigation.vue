@@ -9,7 +9,7 @@ const CARD_SIZE = 252;
 let currentNavigationPosition = 0;
 const { width } = useWindowSize();
 const navigation = ref(null);
-const stateCardElements = ref(['card--inactive', 'card--active', 'card--inactive']);
+const stateCardElements = ref(['card--inactive', 'card--active', 'card--inactive',]);
 
 function handleClickOnSlideCards(currentId) {
   removeActiveClasses();
