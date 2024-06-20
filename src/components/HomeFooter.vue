@@ -39,6 +39,7 @@ import GithubMark from "../components/icons/GithubMark.vue";
 .footer__anchor-github-link {
   display: flex;
   align-items: center;
+  width: max-content;
   gap: var(--medium);
   text-decoration: none;
 }

@@ -84,8 +84,8 @@
   }
 
   .p-datepicker .p-datepicker-header .p-datepicker-prev, .p-datepicker .p-datepicker-header .p-datepicker-next {
-    width: 1.75em;
-    height: 1.75em;
+    width: 2em;
+    height: 2em;
   }
 
   .p-datepicker .p-datepicker-header .p-datepicker-title {
@@ -102,6 +102,11 @@
 
   .p-link {
     font-size: 1em;
+  }
+
+  .p-icon {
+    width: 1em;
+    height: 1.5em;
   }
 
   .p-datepicker table {
