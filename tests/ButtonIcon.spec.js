@@ -49,6 +49,5 @@ test('check slots are being rendered', () => {
       default: 'Test icon slot'
     }
   })
-
   expect(wrapper.html()).toContain('Test icon slot')
 })

@@ -14,6 +14,7 @@
     "@phosphor-icons/vue": "^2.1.6",
     "@vueuse/core": "^10.4.1",
     "pinia": "^2.1.6",
+    "primevue": "^3.52.0",
     "vue": "^3.3.4",
     "vue-router": "^4.2.4",
     "vue3-carousel": "^0.3.1"

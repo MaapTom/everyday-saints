@@ -65,7 +65,6 @@ describe('Test SlideCard', () => {
 
     ListSlideCards.forEach((currentCard, index) => {
       if(index != 0) {
-        console.log(currentCard.classes())
         expect(currentCard.classes('card--active')).toBe(false);
       }
     });
