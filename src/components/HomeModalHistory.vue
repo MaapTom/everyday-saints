@@ -172,7 +172,7 @@ function handleScroll(event) {
 .dialog__modal-container__modal__history-section {
   height: 65vh;
   overflow-y: scroll;
-  padding-bottom: 30px;
+  padding: 0 var(--small-x) 30px 0;
 }
 
 .dialog__modal-container__modal__history-section::-webkit-scrollbar {

@@ -1,4 +1,5 @@
 <script setup>
+import ButtonCopy from './ButtonCopy.vue';
 import { useWindowSize } from '@vueuse/core';
 import { breakpoints } from '../utils/breakpoints.js';
 import { PhHandsPraying, PhLink } from '@phosphor-icons/vue';
@@ -50,18 +51,22 @@ const { width } = useWindowSize();
     </div>
 
     <div class="wrapper-paragraph">
-      <span class="wrapper-paragraph__title-icon">
-        <PhHandsPraying
-          color="#000"
-          :size="width < breakpoints.largePhoneDevice ? 24 : 26"
-          aria-describedby="describedby-icon"
-          role="img"
-        >
-          <title id="describedby-icon" lang="pt">Ícone de mãos orando</title>
-        </PhHandsPraying>
-        <h4 class="wrapper-paragraph__title">Oração</h4>
-      </span>
-      <p class="wrapper-paragraph__text">
+      <div class="wrapper-paragraph__flex-elements">   
+        <span class="wrapper-paragraph__title-icon">
+          <PhHandsPraying
+            color="#000"
+            :size="width < breakpoints.largePhoneDevice ? 24 : 26"
+            aria-describedby="describedby-icon"
+            role="img"
+          >
+            <title id="describedby-icon" lang="pt">Ícone de mãos orando</title>
+          </PhHandsPraying>
+          <h4 class="wrapper-paragraph__title">Oração</h4>
+        </span>
+        
+        <ButtonCopy/>
+      </div>
+      <p class="wrapper-paragraph__text pray-box">
         “Santa Maria Goretti, interceda por mim junto a Deus para que eu possa ser também casta e pura, de corpo, mente e coração!
         Que eu não tema entregar a minha vida por amor a Deus! Amém!”
       </p>
@@ -90,6 +95,11 @@ const { width } = useWindowSize();
 
 .wrapper-paragraph {
   margin: var(--medium-x) 0 0 0;
+}
+
+.wrapper-paragraph__flex-elements {
+  display: flex;
+  justify-content: space-between;
 }
 
 .wrapper-paragraph__title {
