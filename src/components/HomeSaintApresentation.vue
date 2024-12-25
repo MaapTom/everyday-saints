@@ -1,13 +1,30 @@
 <script setup>
+import { ref } from 'vue';
 import { useWindowSize } from "@vueuse/core";
 import { useModalStore } from "../stores/modal";
 import { breakpoints } from "../utils/breakpoints.js";
 import ButtonIcon from "../components/ButtonIcon.vue";
+import ShareTooltip from "../components/ShareTooltip.vue";
 import { PhPlusCircle, PhShareFat } from "@phosphor-icons/vue";
 
 const { width } = useWindowSize();
 const modalStore = useModalStore();
+const stateTooltipShare = ref(false);
 
+function toggleTooltipShare() {
+  stateTooltipShare.value = !stateTooltipShare.value;
+  window.addEventListener('click', isClickOutside);
+}
+
+function isClickOutside(event) {
+  const target = event.target;
+  const buttonShare = document.querySelector('[data-selector="button-share"]');
+
+  if(target !== ShareTooltip && target !== buttonShare) {
+    stateTooltipShare.value = false;
+    window.removeEventListener('click', isClickOutside)
+  }
+}
 </script>
 
 <template>
@@ -52,6 +69,10 @@ const modalStore = useModalStore();
         </PhPlusCircle>
       </ButtonIcon>
 
+      <ShareTooltip
+        v-show="stateTooltipShare"
+      />
+
       <ButtonIcon
         textValue="Compartilhar"
         :largeButton="true"
@@ -59,6 +80,8 @@ const modalStore = useModalStore();
         backgroundColor="#EFEFEF"
         backgroundHover="#DFDFDF"
         v-show="width >= breakpoints.tabletDevice"
+        @click="toggleTooltipShare"
+        data-selector="button-share"
       >
         <PhShareFat
           color="#000"
@@ -75,8 +98,8 @@ const modalStore = useModalStore();
 </template>
 
 <style scoped>
-@import '../assets/base.css';
-@import '../assets/main.css';
+  @import '../assets/base.css';
+  @import '../assets/main.css';
 
 .saint-apresentation {
   display: flex;
@@ -123,6 +146,7 @@ const modalStore = useModalStore();
 }
 
 .saint-apresentation__buttons {
+  position: relative;
   display: flex;
   gap: var(--small);
 }

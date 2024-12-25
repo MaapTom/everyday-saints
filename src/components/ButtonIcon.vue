@@ -66,6 +66,7 @@ const props = defineProps({
 .button__icon-frame {
   display: flex;
   margin: 0 var(--small-s);
+  pointer-events: none;
 }
 
 .button--large {

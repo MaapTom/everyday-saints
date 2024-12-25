@@ -1,4 +1,5 @@
 <script setup>
+import { ref } from "vue";
 import { useWindowSize } from "@vueuse/core";
 import { PhShareFat } from "@phosphor-icons/vue";
 import Separator from "../components/Separator.vue";
@@ -6,6 +7,7 @@ import { breakpoints } from "../utils/breakpoints.js";
 import HomeHeader from "../components/HomeHeader.vue";
 import ButtonIcon from "../components/ButtonIcon.vue";
 import HomeFooter from "../components/HomeFooter.vue";
+import ShareTooltip from "../components/ShareTooltip.vue";
 import HomeSaintImage from "../components/HomeSaintImage.vue";
 import SlideNavigation from '../components/SlideNavigation.vue';
 import HomeSaintHistory from "../components/HomeSaintHistory.vue";
@@ -13,6 +15,25 @@ import HomeModalHistory from "../components/HomeModalHistory.vue";
 import HomeSaintApresentation from "../components/HomeSaintApresentation.vue";
 
 const { width } = useWindowSize();
+const stateTooltipShare = ref(false);
+
+function toggleTooltipShare() {
+  stateTooltipShare.value = !stateTooltipShare.value;
+  window.addEventListener('click', isClickOutside);
+}
+
+function isClickOutside(event) {
+  const target = event.target;
+  const buttonShare = document.querySelector('[data-selector="mobile-button-share"]');
+  console.log(target !== buttonShare);
+  console.log(target, buttonShare);
+
+  if(target !== ShareTooltip && target !== buttonShare) {
+    stateTooltipShare.value = false;
+    window.removeEventListener('click', isClickOutside)
+  }
+}
+
 </script>
 
 <template>
@@ -64,7 +85,12 @@ const { width } = useWindowSize();
 
     <HomeSaintHistory v-show="width < breakpoints.middleDevice"/>
 
-    <div class="home-container__wrapper-mobile-buttons">
+    <div class="home-container__wrapper-mobile-buttons">     
+      <ShareTooltip
+        :mobileTooltip="true"
+        v-show="stateTooltipShare"
+      />
+
       <ButtonIcon
         textValue="Compartilhar"
         :largeButton="true"
@@ -72,6 +98,8 @@ const { width } = useWindowSize();
         backgroundColor="#EFEFEF"
         backgroundHover="#DFDFDF"
         v-show="width < breakpoints.tabletDevice"
+        @click="toggleTooltipShare"
+        data-selector="mobile-button-share"
       >
         <PhShareFat
           color="#000"
@@ -115,10 +143,18 @@ const { width } = useWindowSize();
 }
 
 .home-container__wrapper-mobile-buttons {
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   margin: var(--medium) 0 0 0;
   gap: var(--small);
+}
+
+.home-container__wrapper-mobile-buttons .container-share {
+  top: initial;
+  bottom: calc(100% + 24px);
+  left: 0px;
+  justify-content: center;
 }
 
 .slide-middle-device {
