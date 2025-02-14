@@ -1,15 +1,20 @@
 <script setup>
 import { ref } from 'vue';
+import { storeToRefs } from 'pinia';
 import { useWindowSize } from "@vueuse/core";
 import { useModalStore } from "../stores/modal";
 import { breakpoints } from "../utils/breakpoints.js";
 import ButtonIcon from "../components/ButtonIcon.vue";
 import ShareTooltip from "../components/ShareTooltip.vue";
 import { PhPlusCircle, PhShareFat } from "@phosphor-icons/vue";
+import { useSaintStore } from '../stores/saint.js';
 
 const { width } = useWindowSize();
 const modalStore = useModalStore();
 const stateTooltipShare = ref(false);
+const saintStore = useSaintStore();
+const { isLoaded, currentSaint } = storeToRefs(saintStore);
+const monthNames = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Novembro', 'Dezembro'];
 
 function toggleTooltipShare() {
   stateTooltipShare.value = !stateTooltipShare.value;
@@ -29,26 +34,69 @@ function isClickOutside(event) {
 
 <template>
   <div class="saint-apresentation">
-
-    <h2 class="saint-apresentation__subtitle">
-      <span class="saint_apresentation__subtitle__text-expand">06</span> De Julho
-    </h2>
-
-    <h1 class="saint-apresentation__title saint-apresentation__title--filled-red"
-      v-show="width >= breakpoints.tabletDevice">
-      Santa Maria Goretti
-    </h1>
-
-    <div class="saint-apresentation__details">
-      <h3>Virgem e Mártir</h3>
-      <h3>1890 - 1902</h3>
-    </div>
-
-    <p class="saint-apresentation__description" v-show="width >= breakpoints.middleDevice">
-      Nasceu em Corinaldo, centro da Itália, no ano de 1890. Era de família pobre, numerosa e camponesa,
-      mas muito temente a Deus. Com a morte do pai, Maria Goretti, com os seus, foram morar num local perto de Roma,
-      sob o mesmo teto de uma família composta por um pai viúvo e dois filhos, sendo um deles Alessandro.
-    </p>
+    <template v-if="!isLoaded">
+      <div class="skeleton-container" aria-live="polite" aria-busy="true">
+        <div class="skeleton-child --10percent --small  --bg-light" aria-hidden="true"></div>
+        <div
+          class="skeleton-child --60percent --small  --bg-light" 
+          :class="width >= breakpoints.middleDevice ? '--40percent' : ''" 
+          aria-hidden="true"
+        ></div>
+        <div
+          class="skeleton-child --70percent --small  --bg-light"
+          :class="width >= breakpoints.middleDevice ? '--30percent' : ''" 
+          aria-hidden="true"
+        ></div>
+        <div
+          class="skeleton-child --60percent --small --bg-light"
+          aria-hidden="true" 
+          v-show="width >= breakpoints.middleDevice"
+        ></div>
+        <div
+          class="skeleton-child --70percent --medium --bg-regular" 
+          aria-hidden="true" 
+          v-show="width >= breakpoints.middleDevice"
+        ></div>
+        <div 
+          class="skeleton-child --80percent --medium --bg-dark" 
+          aria-hidden="true" 
+          v-show="width >= breakpoints.middleDevice"
+        ></div>
+      </div>
+    </template>
+    <template v-else>
+      <h2 class="saint-apresentation__subtitle">
+        <span class="saint_apresentation__subtitle__text-expand">
+          {{ currentSaint.day }}
+        </span>
+        De {{ monthNames[currentSaint.month] }}
+      </h2>
+  
+      <h1
+        class="saint-apresentation__title saint-apresentation__title--filled-red"
+        :class="true
+          // currentSaint.saint_category[0].category.name == 'Mártir' ? 
+          // 'saint-apresentation__title--filled-red' : 
+          // 'saint-apres entation__title--filled-gray'
+        "
+        v-show="width >= breakpoints.tabletDevice"
+      >
+        {{ currentSaint.name }}
+      </h1>
+  
+      <div class="saint-apresentation__details">
+        <h3>
+          <span v-for="({ category }, index) in currentSaint.saint_category">
+            {{ (currentSaint.saint_category.length == index + 1) ? category.name : `${category.name} e&nbsp;` }}
+          </span>
+        </h3>
+        <h3>| {{ currentSaint.year }} - {{ currentSaint.death }}</h3>
+      </div>
+  
+      <p class="saint-apresentation__description" v-show="width >= breakpoints.middleDevice">
+        {{ currentSaint.history ? currentSaint.history[0].content[0] : '' }}
+      </p>
+    </template>
 
     <div class="saint-apresentation__buttons">
       <ButtonIcon 
@@ -71,6 +119,7 @@ function isClickOutside(event) {
 
       <ShareTooltip
         v-show="stateTooltipShare"
+        :mobileTooltip="false"
       />
 
       <ButtonIcon
@@ -123,6 +172,12 @@ function isClickOutside(event) {
   color: var(--white);
 }
 
+.saint-apresentation__title--filled-gray {
+  background-color: var(--gray100);
+  border-radius: 8px;
+  color: var(--gray850);
+}
+
 .saint-apresentation__subtitle {
   font: var(--font-text);
   font-weight: 600;
@@ -134,8 +189,6 @@ function isClickOutside(event) {
 
 .saint-apresentation__details h3 {
   display: flex;
-  flex-direction: column;
-  gap: var(--small);
   font: var(--font-text-tertiary);
   font-weight: 400;
 }
@@ -153,10 +206,10 @@ function isClickOutside(event) {
 
 @media(min-width: 485px) {
   .saint_apresentation__subtitle__text-expand {
-    font-size: clamp(3.2rem, 3.2rem + 2vw, 4.8rem);
+    font-size: clamp(2rem, 2rem + 2vw, 3rem);
   }
   .saint-apresentation__subtitle {
-    font-size: clamp(1.6rem, 2rem, 3.2rem);
+    font-size: clamp(1rem, 1.25rem, 2rem);
   }
 
 }
@@ -175,7 +228,7 @@ function isClickOutside(event) {
   .saint-apresentation__details {
     display: flex;
     flex-direction: row;
-    gap: 16px;
+    gap: 6px;
   }
 
   .saint-apresentation__details h3 {

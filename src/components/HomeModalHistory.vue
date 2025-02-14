@@ -6,11 +6,14 @@ import {breakpoints} from '../utils/breakpoints.js';
 import HomeSaintHistory from './HomeSaintHistory.vue';
 import { PhX, PhCaretDown } from '@phosphor-icons/vue';
 import { watchEffect, ref, onMounted, watch } from 'vue';
+import { useSaintStore } from '../stores/saint.js';
 
 const modalDialog = ref(null);
 const isScrollEnded = ref(false);
 const { width } = useWindowSize();
 const modalStore = useModalStore();
+const saintStore = useSaintStore();
+const { isLoaded, currentSaint } = storeToRefs(saintStore);
 const { stateModal } = storeToRefs(modalStore);
 
 onMounted(() => {
@@ -50,7 +53,7 @@ function handleScroll(event) {
 <template>
   <dialog
     ref="modalDialog"
-    class="dialog"
+    class="dialog__history"
     aria-label="Leia mais sobre a história de Santa Maria Goretti"
   >
     <div
@@ -73,11 +76,23 @@ function handleScroll(event) {
         </nav>
 
         <div class="dialog__modal-container__modal__header">
-          <span class="dialog__modal-container__modal__header__flex-wrapper">
-            <h1 class="dialog__modal-container__modal__header__flex-wrapper__title">Santa Maria Goretti</h1>
-            <h3 class="dialog__modal-container__modal__header__flex-wrapper__details">1890-1902</h3>
-          </span> 
-          <h2 class="dialog__modal-container__modal__subtitle">Virgem e Mártir</h2>
+          <template v-if="!isLoaded">
+            <div class="skeleton-container" aria-live="polite" aria-busy="true">
+              <div class="skeleton-child --50percent --small  --bg-regular" aria-hidden="true"></div>
+              <div class="skeleton-child --20percent --small  --bg-light" aria-hidden="true"></div>
+            </div>
+          </template>
+          <template v-else>
+            <span class="dialog__modal-container__modal__header__flex-wrapper">
+              <h1 class="dialog__modal-container__modal__header__flex-wrapper__title">{{ currentSaint.name }}</h1>
+              <h3 class="dialog__modal-container__modal__header__flex-wrapper__details">{{ currentSaint.year }} - {{ currentSaint.death }}</h3>
+            </span> 
+            <h2 class="dialog__modal-container__modal__subtitle">
+              <span v-for="({ category }, index) in currentSaint.saint_category">
+                {{ (currentSaint.saint_category.length == index + 1) ? category.name : `${category.name} e&nbsp;` }}
+              </span>
+            </h2>
+          </template>
         </div>
 
         <section class="dialog__modal-container__modal__history-section" @scroll="handleScroll">
@@ -105,11 +120,11 @@ function handleScroll(event) {
   </dialog>
 </template>
 
-<style setup>
+<style scoped>
 @import '../assets/base.css';
 @import '../assets/main.css';
 
-.dialog {
+.dialog__history {
   min-width: 100vw;
   min-height: 100vh;
   background: transparent;

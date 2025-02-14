@@ -1,15 +1,18 @@
 <script setup>
-import { computed } from 'vue'
+import { computed } from 'vue';
+import { storeToRefs } from 'pinia';
+import { useSaintStore } from '../stores/saint';
+import { useWindowSize } from '@vueuse/core';
 
 const props = defineProps({
   largeDisplayImage: {
     type: String,
-    required: true
+    required: false
   },
 
   smallDisplayImage: {
     type: String,
-    required: true
+    required: false
   },
 
   largeScreen: {
@@ -29,21 +32,37 @@ const props = defineProps({
   }
 })
 
+
 const responsibleSaintImage = computed(() => {
   return (
     props.largeScreen ? props.largeDisplayImage : props.smallDisplayImage
   )
 })
 
+const { width } = useWindowSize();
+const saintStore = useSaintStore()
+const { isLoaded } = storeToRefs(saintStore);
+
 </script>
 
 <template>
   <div class="wrapper-image">
-    <img
-      :src="responsibleSaintImage"
-      :alt="acessibleDescription"
-      data-test="image-test"
-    />
+    <template v-if="!isLoaded">
+      <div class="skeleton-container" aria-live="polite" aria-busy="true">
+        <div
+          class="skeleton-child --small  --bg-regular"
+          :class="width <= 1200 ? '--100percent' : '--100percent'"
+          aria-hidden="true"
+        ></div>
+      </div>
+    </template>
+    <template v-else>
+      <img
+        :src="responsibleSaintImage"
+        :alt="acessibleDescription"
+        data-test="image-test"
+      />
+    </template>
   </div>
 </template>
 
@@ -64,6 +83,10 @@ const responsibleSaintImage = computed(() => {
   max-width: 100%;
 }
 
+.skeleton-child {
+  height: 70vh;
+}
+
 @media(min-width: 1200px) {
   .wrapper-image {
     min-width: 477px;
@@ -71,7 +94,12 @@ const responsibleSaintImage = computed(() => {
     height: 70vh;
     order: 2;
   }
+}
 
+@media(max-width: 420px) {
+  .skeleton-container {
+    max-height: 150px;
+  }
 }
 
 </style>

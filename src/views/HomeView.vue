@@ -1,7 +1,9 @@
 <script setup>
 import { ref } from "vue";
+import { storeToRefs } from 'pinia';
 import { useWindowSize } from "@vueuse/core";
 import { PhShareFat } from "@phosphor-icons/vue";
+import { useSaintStore } from "../stores/saint.js";
 import Separator from "../components/Separator.vue";
 import { breakpoints } from "../utils/breakpoints.js";
 import HomeHeader from "../components/HomeHeader.vue";
@@ -15,7 +17,9 @@ import HomeModalHistory from "../components/HomeModalHistory.vue";
 import HomeSaintApresentation from "../components/HomeSaintApresentation.vue";
 
 const { width } = useWindowSize();
+const saintStore = useSaintStore();
 const stateTooltipShare = ref(false);
+const { currentSaint } = storeToRefs(saintStore);
 
 function toggleTooltipShare() {
   stateTooltipShare.value = !stateTooltipShare.value;
@@ -54,9 +58,9 @@ function isClickOutside(event) {
     <section class="home-container__introduction">
       <HomeSaintImage
         :largeScreen="width >= breakpoints.tabletDevice ? true : false"
-        largeDisplayImage="/santa_maria_goretti_expand.jpg"
-        smallDisplayImage="/santa_maria_goretti.jpg"
-        acessibleDescription="Imagem de Santa Maria Goretti, por..."
+        :largeDisplayImage="currentSaint.saint_image_desktop"
+        :smallDisplayImage="currentSaint.saint_image_mobile"
+        :acessibleDescription="'Imagem de ' + currentSaint.name"
       />
       <Separator
         :width="2"
@@ -74,7 +78,7 @@ function isClickOutside(event) {
       class="home-container__wrapper-mobile-title"
       v-show="width < breakpoints.tabletDevice"
     >
-      <h1 class="home-container__wrapper-mobile-title__title">Santa Maria Goretti</h1>
+      <h1 class="home-container__wrapper-mobile-title__title">{{ currentSaint.name }}</h1>
       <Separator
         :width="100"
         :height="3"
@@ -131,6 +135,10 @@ function isClickOutside(event) {
   display: flex;
   align-items: center;
   gap: var(--small);
+}
+
+.home-container__introduction__column-wrapper {
+    flex: 1;
 }
 
 .home-container__wrapper-mobile-title {

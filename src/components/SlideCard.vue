@@ -1,37 +1,47 @@
 <script setup>
+import { computed } from 'vue';
 import { useWindowSize } from '@vueuse/core';
 import { breakpoints } from '../utils/breakpoints';
 
 const props = defineProps({
   cardSaintUrlImage: {
     type: String,
-    required: true,
   },
   cardSaintName: {
     type: String,
-    required: true,
   },
   cardSaintBornDied: {
     type: String,
-    required: true,
   }
 });
 
 const { width } = useWindowSize();
+const isDataCardLoaded = computed(() => props.cardSaintUrlImage && props.cardSaintName && props.cardSaintBornDied);
 
 </script>
 <template>
   <button :class="[props.isActive ? 'card card--active' : 'card']">
-    <img
-      :src="props.cardSaintUrlImage" 
-      class="card__saint-image"
-      :alt="'Image de ' + cardSaintName"
-      v-show="width >= breakpoints.largePhoneDevice"
-    >
-    <li class="card__text-card">
-      <p class="card__text-card__title">{{ cardSaintName }}</p>
-      <p class="card__text-card__details">{{ cardSaintBornDied }}</p>
-    </li>
+    <template v-if="!isDataCardLoaded">
+      <div class="skeleton-container --flex-row-itens" aria-live="polite" aria-busy="true">
+        <div class="skeleton-child --30percent --no-min-width --large --bg-dark --radius100" aria-hidden="true"></div>
+        <div class="skeleton-container" aria-live="polite" aria-busy="true">
+          <div class="skeleton-child --70percent --no-min-width --extra-small --bg-regular" aria-hidden="true"></div>
+          <div class="skeleton-child --30percent --no-min-width --extra-small --bg-regular" aria-hidden="true"></div>
+        </div>
+      </div>
+    </template>
+    <template v-else>
+      <img
+        :src="props.cardSaintUrlImage" 
+        class="card__saint-image"
+        :alt="'Image de ' + cardSaintName"
+        v-show="width >= breakpoints.largePhoneDevice"
+      >
+      <li class="card__text-card">
+        <p class="card__text-card__title">{{ cardSaintName }}</p>
+        <p class="card__text-card__details">{{ cardSaintBornDied }}</p>
+      </li>
+    </template>
   </button>
 </template>
 <style scoped>
@@ -79,6 +89,10 @@ const { width } = useWindowSize();
 
 .card__text-card__details {
   font: var(--font-text);
+}
+
+.skeleton-container.--flex-row-itens {
+  padding: 0 0 0 var(--small-s);
 }
 
 @media(min-width: 480px){

@@ -1,19 +1,41 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
+import { storeToRefs } from 'pinia';
 import SlideCard from './SlideCard.vue';
 import ButtonIcon from './ButtonIcon.vue';
+import { useSaintStore } from '../stores/saint';
 import { useWindowSize } from "@vueuse/core";
 import { PhCaretRight, PhCaretLeft } from '@phosphor-icons/vue';
 
 const CARD_SIZE = 252;
 let currentNavigationPosition = 0;
-const { width } = useWindowSize();
-const navigation = ref(null);
-const stateCardElements = ref(['card--inactive', 'card--active', 'card--inactive',]);
 
-function handleClickOnSlideCards(currentId) {
+const navigation = ref(null);
+const { width } = useWindowSize();
+const saintStore = useSaintStore();
+const { isLoaded, listSaints } = storeToRefs(saintStore);
+const stateCardElements = ref([]);
+
+watch(isLoaded, () => {
+  generateListIndexCards();
+})
+
+function generateListIndexCards() {
+  if (!isLoaded.value) return;
+
+  for(let i; i <= listSaints.length; i++) {
+    stateCardElements.value.push('card--inactive');
+  }
+
+  stateCardElements.value[0] = 'card--active';
+}
+
+async function handleClickOnSlideCards(index, currentId) {
+
+  saintStore.setActiveSaint(Number(currentId));
+
   removeActiveClasses();
-  stateCardElements.value[currentId] = 'card--active';
+  stateCardElements.value[index] = 'card--active';
 }
 
 function removeActiveClasses() {
@@ -58,46 +80,40 @@ function handleClickLeftControl() {
       ref="navigation"
       data-test="containerNavigation"
     >
-      <SlideCard
-        cardSaintUrlImage="/sao_judas_tadeu_caroussel.png"
-        cardSaintName="São Judas Tadeu"
-        cardSaintBornDied="1500 - 1902"
-        :class="stateCardElements[0]"
-        data-test="slide-card"
-        @click="handleClickOnSlideCards(0)"
-      />
-      <SlideCard
-        cardSaintUrlImage="/santa_maria_goretti_caroussel.png"
-        cardSaintName="Santa Maria Goretti"
-        cardSaintBornDied="1500 - 1902"
-        :class="stateCardElements[1]"
-        data-test="slide-card"
-        @click="handleClickOnSlideCards(1)"
-      />
-      <SlideCard
-        cardSaintUrlImage="/sao_judas_tadeu_caroussel.png"
-        cardSaintName="São Judas Tadeu"
-        cardSaintBornDied="1500 - 1902"
-        :class="stateCardElements[2]"
-        data-test="slide-card"
-        @click="handleClickOnSlideCards(2)"
-      />
-      <SlideCard
-        cardSaintUrlImage="/santa_maria_goretti_caroussel.png"
-        cardSaintName="Santa Maria Goretti"
-        cardSaintBornDied="1500 - 1902"
-        :class="stateCardElements[3]"
-        data-test="slide-card"
-        @click="handleClickOnSlideCards(3)"
-      />
-      <SlideCard
-        cardSaintUrlImage="/sao_judas_tadeu_caroussel.png"
-        cardSaintName="São Judas Tadeu"
-        cardSaintBornDied="1500 - 1902"
-        :class="stateCardElements[4]"
-        data-test="slide-card"
-        @click="handleClickOnSlideCards(4)"
-      />
+      <template v-if="!isLoaded">
+        <SlideCard
+          cardSaintUrlImage=""
+          cardSaintName=""
+          cardSaintBornDied=""
+          data-test="slide-card"
+        />
+        
+        <SlideCard
+          cardSaintUrlImage=""
+          cardSaintName=""
+          cardSaintBornDied=""
+          data-test="slide-card"
+        />
+
+        <SlideCard
+          cardSaintUrlImage=""
+          cardSaintName=""
+          cardSaintBornDied=""
+          data-test="slide-card"
+        />
+      </template>
+      <template v-else>
+        <SlideCard
+          v-for="(saint, index) in listSaints"
+          :key="saint.index"
+          :cardSaintUrlImage="saint.saint_image_avatar"
+          :cardSaintName="saint.name"
+          :cardSaintBornDied="`${saint.year} - ${saint.death}`"
+          :class="stateCardElements[index]"
+          @click="handleClickOnSlideCards(index, saint.id)"
+          data-test="slide-card"
+        />
+      </template>
     </ul>
     <ButtonIcon
       buttonTitle="Rolar para direita"

@@ -1,95 +1,107 @@
 <script setup>
+import { storeToRefs } from 'pinia';
 import ButtonCopy from './ButtonCopy.vue';
 import { useWindowSize } from '@vueuse/core';
+import { useSaintStore } from '../stores/saint.js';
 import { breakpoints } from '../utils/breakpoints.js';
 import { PhHandsPraying, PhLink } from '@phosphor-icons/vue';
 
 const { width } = useWindowSize();
+const saintStore = useSaintStore();
+const { currentSaint, isLoaded } = storeToRefs(saintStore);
+
 </script>
 
 <template>
   <section>
-    <div class="wrapper-paragraph">
-      <h4 class="wrapper-paragraph__title">Origem</h4>
-      <p class="wrapper-paragraph__text">
-        Nasceu em Corinaldo, centro da Itália, no ano de 1890. Era de família pobre,
-        numerosa e camponesa, mas muito temente a Deus. Com a morte do pai, Maria
-        Goretti, com os seus, foram morar num local perto de Roma, sob o mesmo teto de
-        uma família composta por um pai viúvo e dois filhos, sendo um deles Alessandro.
-      </p>
-    </div>
-
-    <div class="wrapper-paragraph">
-      <h4 class="wrapper-paragraph__title">Martírio</h4>
-      <p class="wrapper-paragraph__text">
-        Aconteceu que este jovem, por várias vezes, tentou seduzir Goretti, que ficava
-        em casa para cuidar dos irmãozinhos. E, por ser uma menina temente a Deus, sua
-        resposta era cheia de maturidade: “Não, não, Deus não quer; é pecado!”
-      </p>
-      <p class="wrapper-paragraph__text">
-        Santa Maria Goretti, certa vez, estava em casa e em oração, por isso, quando o 
-        jovem, que era de maior estatura e idade, tentou novamente seduzi-la, Goretti 
-        resistiu com mais um grande não.
-      </p>
-      <p class="wrapper-paragraph__text">
-         A resposta de Alessandro foram 14 facadas, enquanto da parte de Goretti, 
-          percebemos a santidade na confidência à sua mãe: “Sim, o perdoo… Lá no céu,
-          rogarei para que ele se arrependa… Quero que ele esteja junto comigo na glória eterna”.
-      </p>
-    </div>
-
-    <div class="wrapper-paragraph">
-      <h4 class="wrapper-paragraph__title">Conversão</h4>
-      <p class="wrapper-paragraph__text">
-        O martírio desta adolescente de apenas 12 anos foi a causa da conversão do jovem assassino,
-        que, depois de sair da cadeia, esteve com as 400 mil pessoas, na Praça de São Pedro, na ocasião
-        da canonização dessa santa, ao lado da mãe dela, que o perdoou também.
-      </p>
-      <p class="wrapper-paragraph__text">
-        Santa Maria Goretti manteve-se pura e santa por causa do seu amor a Deus, por isso, reina na glória com Cristo.
-      </p>
-    </div>
-
-    <div class="wrapper-paragraph">
-      <div class="wrapper-paragraph__flex-elements">   
-        <span class="wrapper-paragraph__title-icon">
-          <PhHandsPraying
-            color="#000"
-            :size="width < breakpoints.largePhoneDevice ? 24 : 26"
-            aria-describedby="describedby-icon"
-            role="img"
-          >
-            <title id="describedby-icon" lang="pt">Ícone de mãos orando</title>
-          </PhHandsPraying>
-          <h4 class="wrapper-paragraph__title">Oração</h4>
-        </span>
-        
-        <ButtonCopy/>
+    <template v-if="!isLoaded">
+      <div class="skeleton-container" aria-live="polite" aria-busy="true">
+        <div class="skeleton-child --20percent --small  --bg-dark" aria-hidden="true"></div>
+        <div class="skeleton-child --80percent --small  --bg-light" aria-hidden="true"></div>
+        <div class="skeleton-child --100percent --small  --bg-light" aria-hidden="true"></div>
+        <div class="skeleton-child --100percent --small  --bg-light" aria-hidden="true"></div>
+        <div class="skeleton-child --60percent --small  --bg-light" aria-hidden="true"></div>
       </div>
-      <p class="wrapper-paragraph__text pray-box">
-        “Santa Maria Goretti, interceda por mim junto a Deus para que eu possa ser também casta e pura, de corpo, mente e coração!
-        Que eu não tema entregar a minha vida por amor a Deus! Amém!”
-      </p>
-    </div>
-    
-    <div class="wrapper-paragraph">
-      <h4 class="wrapper-paragraph__title">Fonte</h4>
-      <a href="#top" class="wrapper-paragraph__link">
-        <PhLink
-          color="#000"
-          :size="width < breakpoints.largePhoneDevice ? 24 : 26"
-          aria-describedby="describedby-icon"
-          role="img"
+
+      <div class="skeleton-container" aria-live="polite" aria-busy="true">
+        <div class="skeleton-child --20percent --small  --bg-dark" aria-hidden="true"></div>
+        <div class="skeleton-child --100percent --small  --bg-light" aria-hidden="true"></div>
+        <div class="skeleton-child --100percent --small  --bg-light" aria-hidden="true"></div>
+        <div class="skeleton-child --70percent --small  --bg-light" aria-hidden="true"></div>
+      </div>
+
+      <div class="skeleton-container" aria-live="polite" aria-busy="true">
+        <div class="skeleton-child --90percent --small  --bg-light" aria-hidden="true"></div>
+        <div class="skeleton-child --100percent --small  --bg-light" aria-hidden="true"></div>
+        <div class="skeleton-child --80percent --small  --bg-light" aria-hidden="true"></div>
+      </div>
+
+      <div class="skeleton-container" aria-live="polite" aria-busy="true">
+        <div class="skeleton-child --20percent --small  --bg-dark" aria-hidden="true"></div>
+        <div class="skeleton-child --70percent --small  --bg-light" aria-hidden="true"></div>
+        <div class="skeleton-child --70percent --small  --bg-light" aria-hidden="true"></div>
+        <div class="skeleton-child --70percent --small  --bg-light" aria-hidden="true"></div>
+      </div>
+    </template>
+    <template v-else>
+      <div
+        class="wrapper-paragraph"
+        v-for="(history, index) in currentSaint.history"
+        :key="index"
+      >
+        <h4 class="wrapper-paragraph__title">{{ history.title }}</h4>
+        <p
+          class="wrapper-paragraph__text"
+          v-for="(textContent, index) in history.content"
+          :key="index"
         >
-          <title id="describedby-icon" lang="pt">Ícone de link</title>
-        </PhLink>
-        Canção Nova
-      </a>
-    </div>
+          {{ textContent }}
+        </p>
+      </div>
+
+      <div class="wrapper-paragraph" v-if="currentSaint.prayer">
+        <div class="wrapper-paragraph__flex-elements">   
+          <span class="wrapper-paragraph__title-icon">
+            <PhHandsPraying
+              color="#000"
+              :size="width < breakpoints.largePhoneDevice ? 24 : 26"
+              aria-describedby="describedby-icon"
+              role="img"
+            >
+              <title id="describedby-icon" lang="pt">Ícone de mãos orando</title>
+            </PhHandsPraying>
+            <h4 class="wrapper-paragraph__title">Oração</h4>
+          </span>
+          
+          <ButtonCopy/>
+        </div>
+        <p class="wrapper-paragraph__text pray-box">
+          {{ currentSaint.prayer ? currentSaint.prayer : ''  }}
+        </p>
+      </div>
+      
+      <div class="wrapper-paragraph" v-if="currentSaint.saint_source">
+        <h4 class="wrapper-paragraph__title">Fonte</h4>
+
+        <template v-for="{ source } in currentSaint.saint_source">
+          <a :href="source.link" class="wrapper-paragraph__link" target="_blank">
+            <PhLink
+              color="#000"
+              :size="width < breakpoints.largePhoneDevice ? 24 : 26"
+              aria-describedby="describedby-icon"
+              role="img"
+            >
+              <title id="describedby-icon" lang="pt">Ícone de link</title>
+            </PhLink>
+            {{ source.name }}
+          </a>
+        </template>
+      </div>
+    </template>
   </section>
 </template>
 
-<style setup>
+<style scoped>
 @import '../assets/base.css';
 @import '../assets/main.css';
 
@@ -110,7 +122,7 @@ const { width } = useWindowSize();
 .wrapper-paragraph__text {
   margin: var(--small-xl) 0 var(--small-x) 0;
   font: var(--font-text);
-  line-height: 2.4rem;
+  line-height: 1.5rem;
   color: var(--gray800);
 }
 
@@ -127,6 +139,10 @@ const { width } = useWindowSize();
   font: var(--font-text);
   color: var(--gray800);
   max-width: max-content;
+}
+
+.skeleton-container {
+  margin-top: 16px;
 }
 
 </style>

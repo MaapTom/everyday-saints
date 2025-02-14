@@ -1,14 +1,18 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { storeToRefs } from 'pinia';
+import { ref, computed, watch } from 'vue';
 import Calendar from 'primevue/calendar';
 import ButtonIcon from './ButtonIcon.vue';
 import { useWindowSize } from '@vueuse/core';
 import { usePrimeVue } from "primevue/config";
+import { useSaintStore } from '../stores/saint';
 import { breakpoints } from '../utils/breakpoints';
 import { PhCalendarPlus } from '@phosphor-icons/vue';
 
 const dateCalendar = ref();
+const primevue = usePrimeVue();
 const { width } = useWindowSize();
+const saintStore = useSaintStore();
 
 const largeTextButtonIcon = computed(() => {
   return width.value < breakpoints.largePhoneDevice ? 'Calendário' : 'Calendário dos Santos';
@@ -18,7 +22,14 @@ const adjustTextButtonIcon = computed(() => {
   return width.value <= breakpoints.smallPhoneDevice ? '' : largeTextButtonIcon.value;
 })
 
-const primevue = usePrimeVue();
+watch(dateCalendar, () => {
+  const isValidDate = new Date(dateCalendar.value.getMonth(), dateCalendar.value.getDate());
+
+  if (isValidDate.toString() === 'Invalid Date') return;
+  // console.log(isValidDate.getDate(), isValidDate.getMonth());
+  saintStore.updateNewDateOfSaints(isValidDate.getDate(), isValidDate.getMonth() + 1);
+})
+
 primevue.config.locale.dayNamesMin = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'];
 primevue.config.locale.monthNamesShort = 
   [
@@ -30,7 +41,6 @@ primevue.config.locale.monthNames =
     'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho',
     'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
 ] ;
-
 
 </script>
 <template>
@@ -46,7 +56,6 @@ primevue.config.locale.monthNames =
         backgroundColor="#FDE7BC"
         backgroundHover="#E9D4AB"
         @click="clickCallback"
-        
       >
         <PhCalendarPlus
           size="32"
@@ -58,5 +67,3 @@ primevue.config.locale.monthNames =
     </template>
   </Calendar>
 </template>
-<style scoped>
-</style>
