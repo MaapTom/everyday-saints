@@ -28,3 +28,4 @@ coverage
 *.sw?
 *sugestões.txt
 *Pinia-Cheat-Sheet.pdf
+.env

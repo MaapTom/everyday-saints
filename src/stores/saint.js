@@ -6,7 +6,7 @@ export const useSaintStore = defineStore('saint', () => {
   onMounted(async () => {
     // setTimeout(async () => {
       const date = new Date();
-      const getSaintURL = 'http://10.0.1.11:5000/saint/1';
+      const getSaintURL = `${import.meta.env.VITE_SAINT_API_URL}/saint/1`;
 
       currentSaint.value = await APIFecth(getSaintURL);
       listSaints.value = await getListSaints(6, 6);
@@ -22,7 +22,7 @@ export const useSaintStore = defineStore('saint', () => {
 
     if(isNaN(isDateValid) || isNaN(date) || isNaN(month)) return [];
 
-    const getTodaySaintsURL = `http://10.0.1.11:5000/list/${date}-${month}`;
+    const getTodaySaintsURL = `${import.meta.env.VITE_SAINT_API_URL}/list/${date}-${month}`;
     const getListSaintsResponse = await APIFecth(getTodaySaintsURL);
 
     return getListSaintsResponse;
@@ -36,7 +36,7 @@ export const useSaintStore = defineStore('saint', () => {
     if(previousStoragedSaint.length > 0) {
       currentSaint.value = previousStoragedSaint[0];
     } else {
-      const getSaintURL = `http://10.0.1.11:5000/saint/${saintId}`;
+      const getSaintURL = `${import.meta.env.VITE_SAINT_API_URL}/saint/${saintId}`;
       const saint = await APIFecth(getSaintURL);
 
       currentSaint.value = (saint.length > 0) ? saint : currentSaint.value;
