@@ -26,6 +26,6 @@
     "jsdom": "^22.1.0",
     "start-server-and-test": "^2.0.4",
     "vite": "^4.5.5",
-    "vitest": "^1.4.0"
+    "vitest": "^1.6.1"
   }
 }
