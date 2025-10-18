@@ -99,50 +99,55 @@ function isClickOutside(event) {
     </template>
 
     <div class="saint-apresentation__buttons">
-      <ButtonIcon 
-        textValue="Ler Mais"
-        :largeButton="true"
-        iconName="Mais"
-        backgroundColor="#EFEFEF"
-        backgroundHover="#DFDFDF"
-        v-show="width >= breakpoints.middleDevice"
-        @click="modalStore.setOpenModal()"
-      >
-        <PhPlusCircle
-          color="#000"
-          :size="width < breakpoints.largePhoneDevice ? 22 : 26"
-          aria-describedby="describedby-icon" role="img"
+      <template v-if="isLoaded">
+        <ButtonIcon 
+          textValue="Ler Mais"
+          :largeButton="true"
+          iconName="Mais"
+          backgroundColor="#EFEFEF"
+          backgroundHover="#DFDFDF"
+          v-show="width >= breakpoints.middleDevice"
+          @click="modalStore.setOpenModal()"
         >
-          <title id="describedby-icon" lang="pt">Ícone de mais</title>
-        </PhPlusCircle>
-      </ButtonIcon>
+          <PhPlusCircle
+            color="#000"
+            :size="width < breakpoints.largePhoneDevice ? 22 : 26"
+            aria-describedby="describedby-icon" role="img"
+          >
+            <title id="describedby-icon" lang="pt">Ícone de mais</title>
+          </PhPlusCircle>
+        </ButtonIcon>
 
-      <ShareTooltip
-        v-show="stateTooltipShare"
-        :mobileTooltip="false"
-      />
+        <div class="saint-apresentation__button-share">
+          <ShareTooltip
+            v-show="stateTooltipShare"
+            :mobileTooltip="false"
+            :saintName="currentSaint.name"
+            :saintId="currentSaint.id"
+          />
 
-      <ButtonIcon
-        textValue="Compartilhar"
-        :largeButton="true"
-        iconName="Compartilhar"
-        backgroundColor="#EFEFEF"
-        backgroundHover="#DFDFDF"
-        v-show="width >= breakpoints.tabletDevice"
-        @click="toggleTooltipShare"
-        data-selector="button-share"
-      >
-        <PhShareFat
-          color="#000"
-          :size="width < breakpoints.largePhoneDevice ? 22 : 26"
-          aria-describedby="describedby-icon"
-          role="img"
-        >
-          <title id="describedby-icon" lang="pt">Ícone de seta curva</title>
-        </PhShareFat>
-      </ButtonIcon>
+          <ButtonIcon
+            textValue="Compartilhar"
+            :largeButton="true"
+            iconName="Compartilhar"
+            backgroundColor="#EFEFEF"
+            backgroundHover="#DFDFDF"
+            v-show="width >= breakpoints.tabletDevice"
+            @click="toggleTooltipShare"
+            data-selector="button-share"
+          >
+            <PhShareFat
+              color="#000"
+              :size="width < breakpoints.largePhoneDevice ? 22 : 26"
+              aria-describedby="describedby-icon"
+              role="img"
+            >
+              <title id="describedby-icon" lang="pt">Ícone de seta curva</title>
+            </PhShareFat>
+          </ButtonIcon>
+        </div>
+      </template>
     </div>
-
   </div>
 </template>
 
@@ -202,6 +207,10 @@ function isClickOutside(event) {
   position: relative;
   display: flex;
   gap: var(--small);
+}
+
+.saint-apresentation__button-share {
+  position: relative;
 }
 
 @media(min-width: 485px) {

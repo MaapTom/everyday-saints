@@ -19,7 +19,7 @@ import HomeSaintApresentation from "../components/HomeSaintApresentation.vue";
 const { width } = useWindowSize();
 const saintStore = useSaintStore();
 const stateTooltipShare = ref(false);
-const { currentSaint } = storeToRefs(saintStore);
+const { currentSaint, isLoaded } = storeToRefs(saintStore);
 
 function toggleTooltipShare() {
   stateTooltipShare.value = !stateTooltipShare.value;
@@ -29,8 +29,6 @@ function toggleTooltipShare() {
 function isClickOutside(event) {
   const target = event.target;
   const buttonShare = document.querySelector('[data-selector="mobile-button-share"]');
-  console.log(target !== buttonShare);
-  console.log(target, buttonShare);
 
   if(target !== ShareTooltip && target !== buttonShare) {
     stateTooltipShare.value = false;
@@ -89,31 +87,35 @@ function isClickOutside(event) {
 
     <HomeSaintHistory v-show="width < breakpoints.middleDevice"/>
 
-    <div class="home-container__wrapper-mobile-buttons">     
-      <ShareTooltip
-        :mobileTooltip="true"
-        v-show="stateTooltipShare"
-      />
+    <div class="home-container__wrapper-mobile-buttons">
+      <template v-if="isLoaded">
+        <ShareTooltip
+          :mobileTooltip="true"
+          v-show="stateTooltipShare"
+          :saintName="currentSaint.name"
+          :saintId="currentSaint.id"
+        />
 
-      <ButtonIcon
-        textValue="Compartilhar"
-        :largeButton="true"
-        iconName="Compartilhar"
-        backgroundColor="#EFEFEF"
-        backgroundHover="#DFDFDF"
-        v-show="width < breakpoints.tabletDevice"
-        @click="toggleTooltipShare"
-        data-selector="mobile-button-share"
-      >
-        <PhShareFat
-          color="#000"
-          :size="width < breakpoints.largePhoneDevice ? 22 : 26"
-          aria-describedby="describedby-icon"
-          role="img"
+        <ButtonIcon
+          textValue="Compartilhar"
+          :largeButton="true"
+          iconName="Compartilhar"
+          backgroundColor="#EFEFEF"
+          backgroundHover="#DFDFDF"
+          v-show="width < breakpoints.tabletDevice"
+          @click="toggleTooltipShare"
+          data-selector="mobile-button-share"
         >
-          <title id="describedby-icon" lang="pt">Ícone de seta curva</title>
-        </PhShareFat>
-      </ButtonIcon>
+          <PhShareFat
+            color="#000"
+            :size="width < breakpoints.largePhoneDevice ? 22 : 26"
+            aria-describedby="describedby-icon"
+            role="img"
+          >
+            <title id="describedby-icon" lang="pt">Ícone de seta curva</title>
+          </PhShareFat>
+        </ButtonIcon>
+      </template>
     </div>
   </main>
 
